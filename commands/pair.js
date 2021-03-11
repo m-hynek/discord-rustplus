@@ -1,5 +1,3 @@
-import {getType, updateJson} from "../modules/helpers";
-import {rustplus} from "../modules/rustplus";
 
 module.exports = {
     name: 'pair',

@@ -1,4 +1,3 @@
-
 module.exports = {
     Ping: require('./ping'),
     Pair: require('./pair'),

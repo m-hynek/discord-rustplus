@@ -1,5 +1,3 @@
-import {rustplus} from "../modules/rustplus";
-
 module.exports = {
     name: 'gtoggle',
     description: 'Toggle group of switches on or off',

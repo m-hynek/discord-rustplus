@@ -1,19 +1,17 @@
-import {run, shutdown} from "./modules/pairing";
-import {handleMessage} from "./modules/discord";
-import {Client as client} from "discord.js";
-
+const discord = require("./modules/discord");
+const pairing = require("./modules/pairing");
 const config = require("./config.json");
 
-client.on('message', msg => {
-    handleMessage(msg);
+discord.client.on('message', msg => {
+    discord.handleMessage(msg);
 });
 
-client.login(config.BOT_TOKEN);
+discord.client.login(config.BOT_TOKEN);
 
-process.on('SIGTERM', shutdown);
-process.on('SIGINT', shutdown);
+process.on('SIGTERM', pairing.shutdown);
+process.on('SIGINT', pairing.shutdown);
 
-run();
+pairing.run();
 
 
 

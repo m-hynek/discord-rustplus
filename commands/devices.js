@@ -1,5 +1,3 @@
-import {readJson} from "../modules/helpers";
-
 module.exports = {
     name: 'devices',
     description: 'Shows paired devices. No status request.',

@@ -1,6 +1,3 @@
-import {readJson, traverse} from "../modules/helpers";
-import {rustplus} from "../modules/rustplus";
-
 module.exports = {
     name: 'toggle',
     description: 'Set switch on or off',

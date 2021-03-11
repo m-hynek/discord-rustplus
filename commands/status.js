@@ -1,7 +1,3 @@
-import {readJson, traverse} from "../modules/helpers";
-import {client} from "../modules/discord";
-import {rustplus} from "../modules/rustplus";
-
 module.exports = {
     name: 'status',
     description: 'Shows status of tc, storage or switch.',

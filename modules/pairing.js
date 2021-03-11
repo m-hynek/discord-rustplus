@@ -1,5 +1,3 @@
-import {client} from "./discord";
-import {init} from "./rustplus"
 const axios = require('axios');
 const config = require("../config.json");
 const express = require('express');
@@ -8,13 +6,13 @@ const {register, listen} = require('push-receiver');
 const app = express();
 const port = 3000;
 const server = app.listen(port);
+let expoPushToken = null;
+let steamAuthToken = null;
 
 module.exports = {
     name: 'pairing',
     description: 'Listen to server and device pairing events.',
     async run() {
-        let expoPushToken = null;
-        let steamAuthToken = null;
         console.log("Registering with FCM");
         const credentials = await register('976529667804');
 

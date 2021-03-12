@@ -1,26 +1,26 @@
 ###### Experimental code for educational purpose. Rewrite imminent.
 
-####Discord bot commands
+#### Discord bot commands
 
-#####Ping
+##### Ping
 Quick way to check if bot can react 
 
 `!ping`
 
-#####Add
+##### Add
 In-game pairing requests are sent to discord, where devices can be paired with bot
 
 `!add device_id name`
 
 ![add](https://github.com/m-hynek/discord-rustplus/blob/main/add.png?raw=true)
 
-#####Devices
+##### Devices
 
 `!devices`
 
 Prints list of devices paired with bot with ids, names and types
 
-#####Status
+##### Status
 
 `!status tc|storage`
 
@@ -28,7 +28,7 @@ Shows status of TCs or complete monitored inventory
 
 ![status](https://github.com/m-hynek/discord-rustplus/blob/main/status.png?raw=true)
 
-#####Switch
+##### Switch
 
 `!switch enable|disable name`
 
@@ -36,7 +36,7 @@ Obviously it enables or disables switch
 
 ![switch](https://github.com/m-hynek/discord-rustplus/blob/main/switch.png?raw=true)
 
-####Some planned features
+#### Some planned features
 
 - teamchat sync
 - discord reactions to device state changes (smart alarms, low upkeep, state of switches, etc)

@@ -83,7 +83,12 @@ module.exports = {
                     initialized = true;
                 }
                 if (body.type === 'entity') {
-                    discord.client.channels.cache.get(config.PAIR_CHANNEL_ID).send('Pair request for ' + body.entityName + ' with entity ID ' + body.entityId + '. Use "' + discord.prefix + 'pair ' + body.entityId + ' name group" command.');
+                    discord.client.channels.cache.get(config.PAIR_CHANNEL_ID)
+                        .send(
+                            '```In-game pair request for ' + body.entityName + ' with entity ID ' + body.entityId + '.\n' +
+                            'Use following command to pair it with bot:\n' +
+                            discord.prefix + 'add ' + body.entityId + ' name```'
+                        );
                 }
             });
 

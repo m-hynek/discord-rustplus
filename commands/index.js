@@ -3,7 +3,6 @@ module.exports = {
     ping: require('./ping'),
     add: require('./add'),
     status: require('./status'),
-    toggle: require('./toggle'),
-    gtoggle: require('./gtoggle')
+    switch: require('./switch')
 };
 

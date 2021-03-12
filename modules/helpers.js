@@ -1,6 +1,8 @@
+const fs = require("fs");
+
 module.exports = {
     name: 'helpers',
-    description: 'some modules',
+    description: 'some functions',
     traverse(array, callback) {
         for (let i = 0; i < array.length; i++) {
             callback(array[i]);
@@ -18,7 +20,7 @@ module.exports = {
         }
     },
     updateJson(id, type, name, group = null) {
-        let cache = readJson();
+        let cache = module.exports.readJson();
         let device = {
             "id": id,
             "type": type,
@@ -39,15 +41,31 @@ module.exports = {
         } else {
             cache.devices = [device]
         }
-        writeJsonToFile(cache);
+        module.exports.writeJsonToFile(cache);
     },
     readJson() {
-        return require("./devices.json");
+        try {
+            if (fs.existsSync("./devices.json")) {
+                console.log('devices.json does exists');
+            } else {
+                console.log('devices.json does not exists, creating...');
+                fs.writeFile("./devices.json", JSON.stringify({devices: []}), function writeJSON(err) {
+                    if (err) return console.log(err);
+                    console.log('writing to ' + "devices.json");
+
+                });
+            }
+        } catch (err) {
+            console.log(err);
+        }
+        return require("../devices.json");
     },
     writeJsonToFile(json) {
-        let fs = require("fs");
-        fs.writeFile("./devices.json", JSON.stringify(json), "utf8", function () {
-            console.log('devices.json saved')
+        fs.writeFile("./devices.json", JSON.stringify(json), function writeJSON(err) {
+            if (err) return console.log(err);
+            console.log(JSON.stringify(json));
+            console.log('writing to ' + "devices.json");
         });
     }
-};
+}
+;

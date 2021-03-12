@@ -1,3 +1,5 @@
+const helpers = require("../modules/helpers");
+const rust = require("../modules/rust");
 
 module.exports = {
     name: 'pair',
@@ -10,10 +12,10 @@ module.exports = {
             let name = args[1];
             let group = args[2];
             let type = '';
-            rustplus.getEntityInfo(id, (message) => {
+            rust.factory.get().getEntityInfo(id, (message) => {
                 console.log("getEntityInfo response message: " + JSON.stringify(message));
-                type = getType(message);
-                updateJson(id, type, name, group);
+                type = helpers.getType(message);
+                helpers.updateJson(id, type, name, group);
                 return true;
             });
             return msg.react("✅");

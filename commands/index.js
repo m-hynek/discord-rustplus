@@ -1,9 +1,9 @@
 module.exports = {
-    Ping: require('./ping'),
-    Pair: require('./pair'),
-    Status: require('./status'),
-    Toggle: require('./toggle'),
-    GToggle: require('./gtoggle'),
-    Devices: require('./devices')
+    devices: require('./devices'),
+    ping: require('./ping'),
+    pair: require('./pair'),
+    status: require('./status'),
+    toggle: require('./toggle'),
+    gtoggle: require('./gtoggle')
 };
 

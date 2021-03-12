@@ -1,6 +1,6 @@
+const config = require("./config.json");
 const discord = require("./modules/discord");
 const pairing = require("./modules/pairing");
-const config = require("./config.json");
 
 discord.client.on('message', msg => {
     discord.handleMessage(msg);

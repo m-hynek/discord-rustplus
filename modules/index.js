@@ -1,6 +1,6 @@
 module.exports = {
-    Helpers: require('./helpers'),
-    Pairing: require('./pairing'),
-    Discord: require('./discord'),
-    Rustplus: require('./rustplus')
+    helpers: require('./helpers'),
+    pairing: require('./pairing'),
+    discord: require('./discord'),
+    rustplus: require('./rust')
 };

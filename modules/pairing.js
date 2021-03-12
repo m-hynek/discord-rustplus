@@ -1,13 +1,15 @@
-const axios = require('axios');
 const config = require("../config.json");
-const express = require('express');
+const rust = require("./rust");
+const discord = require("./discord");
+let expoPushToken = null;
+let steamAuthToken = null;
 const {v4: uuidv4} = require('uuid');
-const {register, listen} = require('push-receiver');
+const express = require('express');
+const axios = require('axios');
 const app = express();
 const port = 3000;
 const server = app.listen(port);
-let expoPushToken = null;
-let steamAuthToken = null;
+const {register, listen} = require('push-receiver');
 
 module.exports = {
     name: 'pairing',
@@ -37,13 +39,13 @@ module.exports = {
                 if (steamAuthToken) {
 
                     console.log("Steam Account Connected.");
-                    res.send('Steam Account successfully linked with rustplus.js, you can now close this window and go back to the console.');
+                    res.send('Steam Account successfully linked with rust.js, you can now close this window and go back to the console.');
 
                     // register with Rust Companion API
                     console.log("Registering with Rust Companion API");
                     axios.post('https://companion-rust.facepunch.com:443/api/push/register', {
                         AuthToken: steamAuthToken,
-                        DeviceId: 'rustplus.js',
+                        DeviceId: 'rust.js',
                         PushKind: 0,
                         PushToken: expoPushToken,
                     }).then((response) => {
@@ -61,7 +63,7 @@ module.exports = {
             });
 
             // ask user to login with steam
-            console.log("Please open the following URL in your browser to link your Steam Account with rustplus.js");
+            console.log("Please open the following URL in your browser to link your Steam Account with rust.js");
             console.log("https://companion-rust.facepunch.com/login?returnUrl=" + encodeURIComponent(`http://localhost:${port}/callback`));
 
             console.log("Listening for FCM Notifications");
@@ -73,11 +75,15 @@ module.exports = {
                 const body = JSON.parse(notification.data.body);
 
                 if (!initialized) {
-                    init(config.SERVER_IP, config.SERVER_PORT, body.playerId, body.playerToken);
+                    rust.factory.init(config.SERVER_IP, config.SERVER_PORT, body.playerId, body.playerToken);
+                    let rustplus = rust.factory.get();
+                    rustplus.on('connected', () => {
+                        rustplus.sendTeamMessage('[Sentry bot] online');
+                    });
                     initialized = true;
                 }
                 if (body.type === 'entity') {
-                    client.channels.cache.get(config.PAIR_CHANNEL_ID).send('Pair request for ' + body.entityName + ' with entity ID ' + body.entityId + '. Use "' + prefix + 'pair ' + body.entityId + ' name group" command.');
+                    discord.client.channels.cache.get(config.PAIR_CHANNEL_ID).send('Pair request for ' + body.entityName + ' with entity ID ' + body.entityId + '. Use "' + discord.prefix + 'pair ' + body.entityId + ' name group" command.');
                 }
             });
 
@@ -96,7 +102,7 @@ module.exports = {
                 data: {
                     AuthToken: steamAuthToken,
                     PushToken: expoPushToken,
-                    DeviceId: 'rustplus.js',
+                    DeviceId: 'rust.js',
                 },
             }).then((response) => {
                 console.log("Successfully unregistered from Rust Companion API");

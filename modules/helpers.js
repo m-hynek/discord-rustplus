@@ -19,13 +19,12 @@ module.exports = {
             return message.response.entityInfo.type;
         }
     },
-    updateJson(id, type, name, group = null) {
+    updateJson(id, type, name) {
         let cache = module.exports.readJson();
         let device = {
             "id": id,
             "type": type,
-            "name": name,
-            "group": group
+            "name": name
         };
         if (cache.devices) {
             let add = true;
@@ -44,21 +43,22 @@ module.exports = {
         module.exports.writeJsonToFile(cache);
     },
     readJson() {
+        let json = {devices: []};
         try {
             if (fs.existsSync("./devices.json")) {
                 console.log('devices.json does exists');
+                return require("../devices.json");
             } else {
                 console.log('devices.json does not exists, creating...');
-                fs.writeFile("./devices.json", JSON.stringify({devices: []}), function writeJSON(err) {
+                fs.writeFile("./devices.json", JSON.stringify(json), function writeJSON(err) {
                     if (err) return console.log(err);
                     console.log('writing to ' + "devices.json");
-
                 });
             }
         } catch (err) {
             console.log(err);
         }
-        return require("../devices.json");
+        return json;
     },
     writeJsonToFile(json) {
         fs.writeFile("./devices.json", JSON.stringify(json), function writeJSON(err) {

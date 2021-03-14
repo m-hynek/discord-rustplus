@@ -7,10 +7,9 @@ module.exports = {
     getItemName(id) {
         return items[id].name;
     },
-    traverse(array, callback) {
-        for (let i = 0; i < array.length; i++) {
-            callback(array[i]);
-        }
+    getDeviceById(id) {
+        let json = module.exports.readJson();
+        return json.devices[id];
     },
     getType(message) {
         if (message.response.entityInfo.type === 3) {
@@ -48,26 +47,16 @@ module.exports = {
         let device = {
             "id": id,
             "type": type,
-            "name": name
+            "name": name,
         };
-        if (cache.devices) {
-            let add = true;
-            for (let i = 0; i < cache.devices.length; i++) {
-                if (cache.devices[i].id === id) {
-                    cache.devices[i] = device;
-                    add = false;
-                }
-            }
-            if (add) {
-                cache.devices.push(device);
-            }
-        } else {
-            cache.devices = [device]
-        }
+        console.log(id, cache.devices[id]);
+        cache.devices[id] = device;
         module.exports.writeJsonToFile(cache);
     },
     readJson() {
-        let json = {devices: []};
+        let json = {
+            devices: {}
+        };
         try {
             if (fs.existsSync("./devices.json")) {
                 console.log('devices.json does exists');
@@ -91,21 +80,22 @@ module.exports = {
             console.log('writing to ' + "devices.json");
         });
     },
-    get_time_diff(date) {
-        let milisec_diff = 0;
+    getTimeDifference(date) {
+        let ms_diff = 0;
         let now = new Date()
 
         if (date < now) {
-            milisec_diff = now - date;
+            ms_diff = now - date;
         } else {
-            milisec_diff = date - now;
+            ms_diff = date - now;
         }
 
-        let days = Math.floor(milisec_diff / 1000 / 60 / (60 * 24));
+        let days = Math.floor(ms_diff / 1000 / 60 / (60 * 24));
+        let date_diff = new Date(ms_diff);
 
-        let date_diff = new Date(milisec_diff);
-
-        return days + " Days " + date_diff.getHours() + " Hours " + date_diff.getMinutes() + " Minutes " + date_diff.getSeconds() + " Seconds";
+        return days + " Days " +
+            date_diff.getHours() + " Hours " +
+            date_diff.getMinutes() + " Minutes ";
     }
 };
 

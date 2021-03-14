@@ -1,6 +1,8 @@
+const bot = require("./bot");
+const helpers = require("./helpers");
 const config = require("../config.json");
+const md = require("../md.json");
 const rust = require("./rust");
-const discord = require("./discord");
 let expoPushToken = null;
 let steamAuthToken = null;
 const {v4: uuidv4} = require('uuid');
@@ -78,16 +80,51 @@ module.exports = {
                     rust.factory.init(config.SERVER_IP, config.SERVER_PORT, body.playerId, body.playerToken);
                     let rustplus = rust.factory.get();
                     rustplus.on('connected', () => {
-                        rustplus.sendTeamMessage('[Sentry bot] online');
+                        rustplus.sendTeamMessage('[' + config.BOT_NAME + '] online');
+                    });
+                    rustplus.on('message', (message) => {
+                        if (message.broadcast && message.broadcast.entityChanged) {
+                            let entityChanged = message.broadcast.entityChanged;
+                            let entityId = entityChanged.entityId;
+                            let value = entityChanged.payload.value;
+                            let device = helpers.getDeviceById(entityId);
+                            if (device.type === 2 && value) {
+                                let text = "Alarm '" + helpers.getDeviceById(entityId).name + "' is online!";
+                                bot.client.channels.cache.get(config.INFO_CHANNEL_ID)
+                                    .send(md.CODE + md.ALARM + text  + md.CODE);
+                                rustplus.sendTeamMessage("[" + config.BOT_NAME + "] " + text, () => {
+                                    console.log('message sent - ' + "[" + config.BOT_NAME + "] " + text);
+                                });
+                            } else if (device.type === 1) {
+                                let text = "Switch '" + helpers.getDeviceById(entityId).name + "' is " + (value ? "online" : "offline");
+                                bot.client.channels.cache.get(config.INFO_CHANNEL_ID)
+                                    .send(md.CODE + (value ? md.ONLINE : md.OFFLINE) + text + md.CODE);
+                                rustplus.sendTeamMessage("[" + config.BOT_NAME + "] " + text, () => {
+                                    console.log('message sent - ' + "[" + config.BOT_NAME + "] " + text);
+                                });
+                            }else if(value && config.UPKEEP_WARNING) {
+                                if(entityChanged.payload.capacity === 24) {
+                                    if(entityChanged.payload.protectionExpiry < config.UPKEEP_WARNING_THRESHOLD) {
+                                        let text = "Materials for TC '" + helpers.getDeviceById(entityId).name + "' upkeep are running low.";
+                                        bot.client.channels.cache.get(config.INFO_CHANNEL_ID)
+                                            .send(md.CODE + md.OFFLINE + text + md.CODE);
+                                        rustplus.sendTeamMessage("[" + config.BOT_NAME + "] " + text, () => {
+                                            console.log('message sent - ' + "[" + config.BOT_NAME + "] " + text);
+                                        });
+                                    }
+                                }
+                            }
+                            console.log("entity " + entityId + " is now " + (value ? "active" : "inactive"));
+                        }
                     });
                     initialized = true;
                 }
                 if (body.type === 'entity') {
-                    discord.client.channels.cache.get(config.PAIR_CHANNEL_ID)
+                    bot.client.channels.cache.get(config.PAIR_CHANNEL_ID)
                         .send(
                             '```In-game pair request for ' + body.entityName + ' with entity ID ' + body.entityId + '.\n' +
                             'Use following command to pair it with bot:\n' +
-                            discord.prefix + 'add ' + body.entityId + ' name```'
+                            bot.prefix + 'add ' + body.entityId + ' name```'
                         );
                 }
             });

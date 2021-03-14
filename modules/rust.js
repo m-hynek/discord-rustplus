@@ -11,6 +11,7 @@ class Factory {
         return this.rustplus;
     }
 }
+
 module.exports = {
     name: 'rustplus',
     description: 'in game events',

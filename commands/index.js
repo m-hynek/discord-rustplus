@@ -2,8 +2,10 @@ module.exports = {
     devices: require('./devices'),
     ping: require('./help'),
     add: require('./add'),
-    status: require('./status'),
+    inventory: require('./inventory'),
     switch: require('./switch'),
-    chuck: require('./chuck')
+    chuck: require('./chuck'),
+    chat: require('./chat'),
+    tc: require('./tc'),
 };
 

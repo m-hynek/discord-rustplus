@@ -9,9 +9,24 @@ node index.js
 #### Features
 ##### In-game device pairing
 - Pair devices to bot and control everything from discord
-- Use various commands to check state and details
-- Real time discord and teamchat notifications for switches and alarms status
-- Low upkeep warning with configured time threshold
+- Use various commands to check state and details of smart components
+
+![add](https://github.com/m-hynek/discord-rustplus/blob/main/docs/img/add.png?raw=true)
+![devices](https://github.com/m-hynek/discord-rustplus/blob/main/docs/img/devices.png?raw=true)
+![switch](https://github.com/m-hynek/discord-rustplus/blob/main/docs/img/switch.png?raw=true)
+
+##### Real time notifications
+- Discord and in-game chat notifications for switches and alarms status changes
+- Upkeep warning with configured time threshold
+
+![notifications](https://github.com/m-hynek/discord-rustplus/blob/main/docs/img/notifications.png?raw=true)
+![notifications2](https://github.com/m-hynek/discord-rustplus/blob/main/docs/img/notifications2.png?raw=true)
+
+##### Status reporting
+- Instant overview of upkeep and storage
+
+![status](https://github.com/m-hynek/discord-rustplus/blob/main/docs/img/status1.png?raw=true)
+![status](https://github.com/m-hynek/discord-rustplus/blob/main/docs/img/status2.png?raw=true)
 
 #### Bot bot commands
 
@@ -25,15 +40,11 @@ In-game pairing requests are sent to discord, where devices can be paired with b
 
 `!add device_id name`
 
-![add](https://github.com/m-hynek/discord-rustplus/blob/main/add.png?raw=true)
-
 ##### Devices
 
 `!devices`
 
 Prints list of devices paired with bot with ids, names and types
-
-![switch](https://github.com/m-hynek/discord-rustplus/blob/main/devices.png?raw=true)
 
 ##### Status
 
@@ -41,16 +52,11 @@ Prints list of devices paired with bot with ids, names and types
 
 Shows status of TCs or complete monitored inventory
 
-![status](https://github.com/m-hynek/discord-rustplus/blob/main/status1.png?raw=true)
-![status](https://github.com/m-hynek/discord-rustplus/blob/main/status2.png?raw=true)
-
 ##### Switch
 
 `!switch enable|disable name`
 
 Obviously it enables or disables switch
-
-![switch](https://github.com/m-hynek/discord-rustplus/blob/main/switch.png?raw=true)
 
 ##### Chuck
 

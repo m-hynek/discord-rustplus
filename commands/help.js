@@ -10,7 +10,8 @@ module.exports = {
             '!chuck - send CN fact to team chat\n' +
             '!devices - prints devices and initializes communication with them\n' +
             '!group - not implemented\n' +
-            '!status tc|storage - print upkeep or storage report\n' +
+            '!inventory - print inventory report \n' +
+            '!tc - print upkeep report\n' +
             '!switch enable!disable name - control switch by name\n'
             + md.CODE);
     },

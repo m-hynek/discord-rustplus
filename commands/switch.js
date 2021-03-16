@@ -6,7 +6,7 @@ module.exports = {
     name: 'switch',
     description: 'Set switch on or off',
     execute(msg, args) {
-        if (args.length > 1) {
+        if (args.length === 2) {
             let toggle = args[0];
             let name = args[1];
             let cache = helpers.readJson();

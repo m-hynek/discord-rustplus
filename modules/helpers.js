@@ -11,6 +11,17 @@ module.exports = {
         let json = module.exports.readJson();
         return json.devices[id];
     },
+    getDeviceByName(name) {
+        return new Promise(resolve => {
+            let json = module.exports.readJson();
+            Object.keys(json.devices).forEach(key => {
+                let item = json.devices[key];
+                if (item.name === name) {
+                    return resolve(item);
+                }
+            });
+        });
+    },
     getType(message) {
         if (message.response.entityInfo.type === 3) {
             if (message.response.entityInfo.payload.capacity === 24) {
@@ -42,7 +53,7 @@ module.exports = {
         }
         return type;
     },
-    updateJson(id, type, name) {
+    pairDevice(id, type, name) {
         let cache = module.exports.readJson();
         let device = {
             "id": id,
@@ -55,7 +66,9 @@ module.exports = {
     },
     readJson() {
         let json = {
-            devices: {}
+            devices: {},
+            groups: {},
+            chuck: 0
         };
         try {
             if (fs.existsSync("./devices.json")) {
@@ -96,6 +109,21 @@ module.exports = {
         return days + " Days " +
             date_diff.getHours() + " Hours " +
             date_diff.getMinutes() + " Minutes ";
+    },
+    chunkString(str, len) {
+        let input = str.trim().split(' ');
+        let [index, output] = [0, []]
+        output[index] = '';
+        input.forEach(word => {
+            let temp = `${output[index]} ${word}`.trim()
+            if (temp.length <= len) {
+                output[index] = temp;
+            } else {
+                index++;
+                output[index] = word;
+            }
+        })
+        return output
     }
 };
 

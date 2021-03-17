@@ -5,8 +5,8 @@ module.exports = {
     name: 'chat',
     description: '',
     execute(msg, args) {
-        rust.sendTeamMessage(args.join(" "), () => {
+        rust.sendTeamMessage(args.join(" "), msg.member.user.username, () => {
             return msg.react(md.OK);
-        }, msg.member.user.username);
+        });
     }
 }

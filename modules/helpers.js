@@ -12,12 +12,15 @@ module.exports = {
         return json.devices[id];
     },
     getDeviceByName(name) {
-        return new Promise(resolve => {
+        return new Promise((resolve, reject) => {
             let json = module.exports.readJson();
-            Object.keys(json.devices).forEach(key => {
+            Object.keys(json.devices).forEach((key, i) => {
                 let item = json.devices[key];
                 if (item.name === name) {
                     return resolve(item);
+                }
+                if ((Object.keys(json.devices).length - 1) === i) {
+                    return reject();
                 }
             });
         });

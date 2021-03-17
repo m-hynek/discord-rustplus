@@ -1,5 +1,6 @@
 const bot = require("./bot");
 const helpers = require("./helpers");
+const chuck = require("./chuck");
 const config = require("../config.json");
 const md = require("../md.json");
 const rust = require("./rust");
@@ -89,30 +90,22 @@ module.exports = {
                             let value = entityChanged.payload.value;
                             let device = helpers.getDeviceById(entityId);
                             if (device.type === 2 && value) {
-                                let text = "Alarm '" + helpers.getDeviceById(entityId).name + "' is online!";
+                                if(device.name === helpers.readJson().chuck) {
+                                    chuck.sendJoke();
+                                }
+                                let text = "Alarm '" + device.name + "' is online!";
                                 bot.client.channels.cache.get(config.INFO_CHANNEL_ID)
                                     .send(md.CODE + md.ALARM + text  + md.CODE);
-                                rustplus.sendTeamMessage("[" + config.BOT_NAME + "] " + text, () => {
+                                rustplus.sendTeamMessage("[" + config.BOT_NAME + "] " + text, undefined, () => {
                                     console.log('message sent - ' + "[" + config.BOT_NAME + "] " + text);
                                 });
                             } else if (device.type === 1) {
-                                let text = "Switch '" + helpers.getDeviceById(entityId).name + "' is " + (value ? "online" : "offline");
+                                let text = "Switch '" + device.name + "' is " + (value ? "online" : "offline");
                                 bot.client.channels.cache.get(config.INFO_CHANNEL_ID)
                                     .send(md.CODE + (value ? md.ONLINE : md.OFFLINE) + text + md.CODE);
-                                rustplus.sendTeamMessage("[" + config.BOT_NAME + "] " + text, () => {
+                                rustplus.sendTeamMessage("[" + config.BOT_NAME + "] " + text, undefined, () => {
                                     console.log('message sent - ' + "[" + config.BOT_NAME + "] " + text);
                                 });
-                            }else if(value && config.UPKEEP_WARNING) {
-                                if(entityChanged.payload.capacity === 24) {
-                                    if(entityChanged.payload.protectionExpiry < config.UPKEEP_WARNING_THRESHOLD) {
-                                        let text = "Materials for TC '" + helpers.getDeviceById(entityId).name + "' upkeep are running low.";
-                                        bot.client.channels.cache.get(config.INFO_CHANNEL_ID)
-                                            .send(md.CODE + md.OFFLINE + text + md.CODE);
-                                        rustplus.sendTeamMessage("[" + config.BOT_NAME + "] " + text, () => {
-                                            console.log('message sent - ' + "[" + config.BOT_NAME + "] " + text);
-                                        });
-                                    }
-                                }
                             }
                             console.log("entity " + entityId + " is now " + (value ? "active" : "inactive"));
                         }

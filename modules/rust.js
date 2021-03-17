@@ -16,15 +16,15 @@ module.exports = {
             return this.rustplus;
         }
     },
-    sendTeamMessage(textOriginal, callback, name) {
+    sendTeamMessage(textOriginal, name, callback) {
         let chunks = helpers.chunkString(textOriginal, 125 - name.length);
         let promise = new Promise(resolve => {
             chunks.forEach((chunk, i) => {
                 let text = "[" + name  + "] " + chunk;
-                module.exports.factory.get().sendTeamMessage(text, message => {
+                module.exports.factory.get().sendTeamMessage(text, undefined, message => {
                     console.log('message sent - ' + text);
                     console.log(message);
-                    if(i === chunks.length -1) {
+                    if (i === chunks.length - 1) {
                         resolve();
                     }
                 });

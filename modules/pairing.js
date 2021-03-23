@@ -1,6 +1,6 @@
 const bot = require("./bot");
 const helpers = require("./helpers");
-const chuck = require("./chuck");
+const chuck = require("../commands/chuck");
 const config = require("../config.json");
 const md = require("../md.json");
 const rust = require("./rust");
@@ -40,7 +40,6 @@ module.exports = {
                 steamAuthToken = req.query.token;
 
                 if (steamAuthToken) {
-
                     console.log("Steam Account Connected.");
                     res.send('Steam Account successfully linked with rust.js, you can now close this window and go back to the console.');
 
@@ -76,7 +75,7 @@ module.exports = {
             await listen(credentials, ({notification, persistentId}) => {
                 // parse notification body
                 const body = JSON.parse(notification.data.body);
-
+                console.log(body);
                 if (!initialized) {
                     rust.factory.init(config.SERVER_IP, config.SERVER_PORT, body.playerId, body.playerToken);
                     let rustplus = rust.factory.get();
@@ -84,6 +83,7 @@ module.exports = {
                         rustplus.sendTeamMessage('[' + config.BOT_NAME + '] online');
                     });
                     rustplus.on('message', (message) => {
+                        console.log(message);
                         if (message.broadcast && message.broadcast.entityChanged) {
                             let entityChanged = message.broadcast.entityChanged;
                             let entityId = entityChanged.entityId;

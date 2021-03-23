@@ -41,6 +41,11 @@ In-game pairing requests are sent to discord, where devices can be paired with b
 
 `!add device_id name`
 
+##### Chat
+Send a message to game chat
+
+`!chat message-text`
+
 ##### Devices
 Prints list of devices paired with bot with ids, names and types
 

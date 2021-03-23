@@ -88,8 +88,7 @@ Bind in-game with bot  so in-game alarm can trigger it (not yet implemented)
 
 #### Some planned features
 
-- teamchat sync
-- !group: add switch grouping and toggle groups by !group enable|disable name (!group disable turrets)
+- teamchat sync (only sending is implemented)
 - search and sorting of inventories for !status 
 - !shops to see all player listings
 - allow toggling switches in intervals, with delay or toggle for X minutes

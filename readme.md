@@ -89,7 +89,7 @@ Bind in-game with bot  so in-game alarm can trigger it (not yet implemented)
 #### Some planned features
 
 - teamchat sync (only sending is implemented)
-- search and sorting of inventories for !status 
+- search and sorting of inventories for !inventory 
 - !shops to see all player listings
 - allow toggling switches in intervals, with delay or toggle for X minutes
 
